@@ -1,0 +1,12 @@
+<div >
+    <img class="detalhe" [src]="'assets/images/'+noticia.imagem">
+    <br>
+    <span class="titulodetalhe">{{ noticia.titulo }}</span>
+    <br>
+    <p class="noticia">
+        {{ noticia.data | date : 'dd/MM/yyyy hh:mm:ss'}}
+    </p>
+    <br>
+    <div class="noticia" [innerHtml]="noticia.texto"></div>
+    <button (click)="voltar()">Voltar</button>
+</div>

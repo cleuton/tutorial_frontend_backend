@@ -1,0 +1,64 @@
+Primeiro, suba o PostgreSQL, o PGAdmin e crie um banco de dados: 
+
+1) Instale o docker
+2) Suba um contêiner usando a imagem do PostgreSQL: sudo docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=password -d postgres
+3) Suba um contêiner usando a imagem do PGAdmin: 
+sudo docker run -p 8088:80 --link some-postgres:postgres \
+-e "PGADMIN_DEFAULT_EMAIL=seuemail@seuprovedor.com" \
+-e "PGADMIN_DEFAULT_PASSWORD=password" \
+-d dpage/pgadmin4
+
+4) Abra um navegador e abra a página do PGAdmin: http://localhost:8088
+    - informe o email que usou para subir o PGAdmin: seuemail@seuprovedor.com
+    - informe a senha: password
+    
+5) Crie um servidor: server/create/server
+    - informe um nome na aba General
+    - informe "some-postgres" no campo host da aba "Connection"
+    - informe "postgres" no campo "username" da aba "Connection"
+    - informe "password" no campo "Password" da aba "Connection"
+    
+6) Abra o Querytool e crie a tabela: 
+    - Na lista à esquerda abra os nós: some-postgres/databases/postgres/Schemas/public/Tables
+    - Clique com o botão direito em Tables e abra Query tool
+    - Copie e cole o conteúdo do arquivo backend/arquivos_para_copiar/criabanco.sql
+    - Clique no botão com símbolo de "play" (triângulo)
+    - Verifique se a query rodou sem problemas: Abra Table/aviso e clique com o botão direito selecionando "view edit data" e "all rows". A tabela e seu conteúdo devem aparecer para você.
+
+Comece pelo Backend para ter dados:
+
+1) Instale as dependências backend: Java 11 e Eclipse
+2) Gere um projeto inicial com o Spring Initializr (https://start.spring.io/)
+    - Prencha os metadados do projeto
+    - Selecione as dependências: Spring web, Spring Data JPA, PostgreSQL Driver, Rest Repositories
+    - Clique em "Generate" e baixe o zip e descompacte onde quiser
+3) Abra o eclipse, crie uma workspace e importe o projeto maven gerado no zip
+4) Configure seu banco PostgreSQL copiando o arquivo "application.properties" para src/main/resources/
+5) Crie uma classe de entidade para representar a tabela "aviso", do PostgreSQL ("Aviso.java") e copie para src/main/java/<pacote>
+6) Crie uma interface para representar seu repositório de dados, copiando o arquivo "AvisoRepository.java" para src/main/java/<pacote>
+7) Execute a aplicação selecionando a classe inicial "NoticiasAppApplication.java" como na figura "rodar_backend"
+8) Deve aparecer um resultado como o da figura "backend_noar"
+9) Abra um terminal e faça um request ao backend com curl: curl http://localhost:8080/api O resultado deve ser o da figura "resultado_rest".
+10) Pronto! Deixe o backend rodando.
+
+Agora, vamos para o Frontend:
+
+1) Instale as ferramentas frontend: NodeJS (com NPM) e Angular CLI;
+2) Crie o frontend com o Angular CLI: ng new quadrofront 
+    - Responda "y" quando perguntar se quer adicionar Angular Routing;
+    - Ele perguntará qual tipo de estilo quer usar. Tecle <ENTER> para selecionar CSS
+3) Crie uma interface Typescript para representar as notícias: ng generate interface Noticia
+4) Edite o arquivo src/styles.css e cole o que está em arquivos_para_copiar/styles.css nele
+5) Vamos gerar um componente para a barra superior com o comando: ng generate component barra-superior
+    - Depois de gerado, copie o html e o typescript que estão na pasta arquivos_para_copiar
+6) Agora, vamos executar para ver como está saindo: ng serve --open Deve ficar como a figura "primeira_rodada_frontend"
+7) Copie as imagens da pasta "imagens" de arquivos_para_copiar para dentro da pasta src/assets/images
+8) Agora vamos criar um componente para listar as imagens: ng generate component lista-noticias
+    - copie os arquivos correspondentes da pasta "arquivos_para_copiar" para ficar igual
+9) Finalmente, vamos criar um componente para exibir os detalhes da notícia: ng generate component detalhe-noticia Copie os arquivos
+10) Agora, vamos alterar o roteamento para incluir a navegação correta. Altere o arquivo app-routing-module.ts para ficar como está na pasta arquivos_para_copiar
+11) Altere o app-module.ts para importar o módulo "HttpClientModule" como está na pasta "arquivos_para_copiar"
+12) Crie o arquivo proxy.conf.json na pasta src como está em arquivos_para_copiar
+13) Altere o arquivo angular.json, que está na raiz do frontend, para adicionar a seção "options" ao atributo "serve", como está na pasta "arquivos_para_copiar".
+14) Teste a aplicação com: ng serve --open
+
