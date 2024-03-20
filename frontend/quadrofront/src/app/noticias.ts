@@ -6,4 +6,6 @@ export interface Noticia {
     imagem : string;
     texto : string;
     data : Date;
+
 }
+

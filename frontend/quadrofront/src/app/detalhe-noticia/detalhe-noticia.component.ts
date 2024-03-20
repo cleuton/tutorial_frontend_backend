@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
-import { Noticia } from '../noticia';
+import { Noticia } from '../noticias';
 
 @Component({
   selector: 'app-detalhe-noticia',

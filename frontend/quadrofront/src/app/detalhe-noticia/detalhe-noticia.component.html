@@ -3,10 +3,10 @@
     <br>
     <span class="titulodetalhe">{{ noticia.titulo }}</span>
     <br>
-    <p class="noticia">
-        {{ noticia.data | date : 'dd/MM/yyyy hh:mm:ss'}}
+    <p id="dtnoticia" class="noticia">
+        {{ noticia.data | date : 'dd/MM/yyyy HH:mm:ss'}}
     </p>
     <br>
-    <div class="noticia" [innerHtml]="noticia.texto"></div>
+    <div id="corponoticia" class="noticia" [innerHtml]="noticia.texto"></div>
     <button (click)="voltar()">Voltar</button>
 </div>
